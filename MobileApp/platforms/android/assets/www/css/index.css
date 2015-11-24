@@ -1,0 +1,106 @@
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#E4E4E4;
+    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #A7A7A7),
+        color-stop(0.51, #E4E4E4)
+        );
+    background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;    
+    width:100%;
+}
+
+h1 {
+    font-size:24px;
+    font-weight:normal;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+    text-align:center;
+}
+
+.container {
+    border-left: 2px solid;
+    border-right: 2px solid;
+    margin-left: 3em;
+    margin-right: 4em;
+}
+
+.entry {
+    margin-left: 11.5em;
+    font-size: 1.5em;
+}
+
+.exit{
+    margin-left: 12.5em;
+    font-size: 1.5em;   
+}
+
+.parking-spot{
+    height: 10em;
+    border: 1px solid;
+    width: 70%;
+}
+
+.parking-spot > p {
+    font-size: 2.5em;
+}
+
+.slot-label{
+    font-weight: bold;    
+    position: relative;        
+    top: -1.5em;
+    left: 2.5em;
+}
+
+.exit-arrow, .entry-arrow{
+    display: inline-block;
+    float:right;
+}
+
+.rotated { 
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.occupied{
+    background-color: #FF4136;
+}
+
+.unavailable{
+    background-color: #AAAAAA;
+}
+
+.available{
+    background-color: #2ECC40;
+}
+
+.dialog-container{
+    margin-top: 53%;
+}
+
+.timer {
+    position: relative;
+    font-size: 3em;
+    left: 1.3333em;
+    top: -1.88em;
+}
