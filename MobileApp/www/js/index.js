@@ -1,5 +1,4 @@
-// Codes represented as array i.e. codeColor[0] corresponds to "available"
-var codeColor = ["available", "occupied", "unavailable"]
+var parkingCodes = {0: "available", 1: "occupied",2: "unavailable"}
 
 var app = {
     initialize: function() {
@@ -92,13 +91,11 @@ var app = {
             channel: "parkingapp-resp",
             message: function(message) {
                 $.mobile.loading("hide");
-                var currentStatus = Object.keys(message).reverse().map(function(key) {
-                    return codeColor[message[key]]
+                Object.keys(message).forEach(function(lot){
+                    $("div[data-lot="+lot+"]")
+                    .removeClass("available unavailable occupied")
+                    .addClass(parkingCodes[message[lot]])
                 })
-                $('.parking-spot').each(function(i, elem) {
-                    $(elem).removeClass("available unavailable occupied").addClass(currentStatus[i])
-                })
-
             },
             connect: app.status(app.getStatusMessage)
         })
