@@ -57,7 +57,17 @@
             </div>
             <div class="ui-content status-content">
             </div>
-            <template id="status-template"><h3>You have parked your vehicle in LOT number {{lotNumber}} since {{time}}</h3></template>
+            <template id="status-template">You have parked your vehicle in LOT number {{lotNumber}} since {{time}}</template>
+        </div>
+    </div>
+    <div data-role="dialog" id="parking-status" data-close-btn="none">
+        <div class='dialog-container'>
+            <div data-role="header" data-theme="b" >
+                <h1>Auto-Park</h1>
+            </div>
+            <div class="ui-content status-content">
+            </div>
+            <template id="status-template">You have parked your vehicle in LOT number {{lotNumber}} since {{time}}</template>
         </div>
     </div>
     <div data-role="dialog" id="bill-details">
@@ -72,6 +82,7 @@
                 <h3>Start Time: {{startTime}}</h3>
                 <h3>End Time: {{endTime}}</h3>
                 <h3>Total Time: {{totalTime}}</h3>
+                <button class='close-bill'>OK</button>
             </template>
         </div>
     </div>

@@ -98,6 +98,10 @@ h1 {
     margin-top: 53%;
 }
 
+.close-bill{
+    margin-left: 80%
+}
+
 .timer {
     position: relative;
     font-size: 3em;

@@ -5,10 +5,23 @@ var app = {
     initialize: function() {
         this.bindEvents();
         this.pubNubInit();
+        $(window).on("navigate", function (event, data) {
+          var direction = data.state.direction;
+          event.preventDefault();      
+      })
     },
+
+    getStatusMessage: {
+        "Requester": "APP",
+        "Device ID": 0,
+        "Request Type": 4,
+        "Request Value": 0
+    },
+
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         $('.container').on('click', '.available', app.confirmParking)
+        $('body').on('click', '.close-bill', app.closeBill)
     },
     onDeviceReady: function() {
         app.initRegister()
@@ -17,8 +30,9 @@ var app = {
     initRegister: function() {
         $('#vehicle-num-submit').on('click', function() {
             window.localStorage.setItem('number', $('#number').val())
-            app.subscribeToSelf()
-            $(".ui-dialog").dialog("close")
+            app.subscribeToSelf();
+            $( ":mobile-pagecontainer" ).pagecontainer( "change", "index.html" );
+            app.status(app.getStatusMessage)
             app.showLoading()
         })
         if (!window.localStorage.getItem('number')) {
@@ -34,16 +48,16 @@ var app = {
         var lot = $(e.target).data().lot
         $('.status-content').empty()
         $('.status-content').append(Mustache.render($('#status-template').html(), {
-                lotNumber: lot,
-                time: moment().format("h:mm A")
-            })
+            lotNumber: lot,
+            time: moment().format("h:mm A")
+        })
         )
         $.mobile.changePage("#parking-status", {
             role: "dialog"
         });
         app.status(
-               {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
-            )
+           {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
+           )
         console.log("Testing")
     },
 
@@ -66,6 +80,12 @@ var app = {
         app.subscribeToSelf()              
     },
 
+    closeBill: function() {
+        $( ":mobile-pagecontainer" ).pagecontainer( "change", "index.html" );
+        app.showLoading();
+        app.status(app.getStatusMessage);
+    },
+
     subscribeToStatus: function() {
         console.log("Subscribing..");
         pubnub.subscribe({
@@ -80,43 +100,38 @@ var app = {
                 })
 
             },
-            connect: app.status({
-                "Requester": "APP",
-                "Device ID": 0,
-                "Request Type": 4,
-                "Request Value": 0
-            })
+            connect: app.status(app.getStatusMessage)
         })
     },
 
     subscribeToSelf: function() {
       pubnub.subscribe({
-            channel: window.localStorage.getItem('number'),
-            message: function(message) {
-                $.mobile.changePage("#parking-status", {
-                    role: "dialog"
-                 });
-                app.renderBill(message)
-            },            
-        })  
-    },
+        channel: window.localStorage.getItem('number'),
+        message: function(message) {
+            $.mobile.changePage("#parking-status", {
+                role: "dialog"
+            });
+            app.renderBill(message)
+        },            
+    })  
+  },
 
-    renderBill: function(message) {
-        $(".status-content").html(Mustache.render($('#bill-template').html(), message));      
-        console.log("Session ended")
-    },
+  renderBill: function(message) {
+    $(".status-content").html(Mustache.render($('#bill-template').html(), message));      
+    console.log("Session ended")
+},
 
-    status: function(message) {
-        console.log("Requesting current parking status...");
-        pubnub.publish({
-            channel: "parkingapp-req",
-            message: message,
-            callback: function(m) {
-                console.log(m)
-            }
-        })
+status: function(message) {
+    console.log("Requesting current parking status...");
+    pubnub.publish({
+        channel: "parkingapp-req",
+        message: message,
+        callback: function(m) {
+            console.log(m)
+        }
+    })
 
-    },
+},
 
 };
 
