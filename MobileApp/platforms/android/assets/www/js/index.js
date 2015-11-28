@@ -19,7 +19,7 @@ var app = {
 
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        $('.container').on('click', '.available', app.confirmParking)
+        $('.container').on('click', '.available', app.startParking)
         $('body').on('click', '.close-bill', app.closeBill)
     },
     onDeviceReady: function() {
@@ -48,8 +48,12 @@ var app = {
 
         switch(window.localStorage.getItem('ui')) {
             case 'REGISTER': 
-            app.register();
-            break;
+                app.register();
+                break;
+
+            case 'PROGRESS': 
+                app.progress();
+                break;
 
             default: 
             app.default();
@@ -70,24 +74,24 @@ var app = {
     default: function() {
         $( ":mobile-pagecontainer" ).pagecontainer( "change", $('#default'));
         app.status(app.getStatusMessage);
-        app.showLoading();       
+        app.showLoading();
     },
 
-    confirmParking: function(e) {
-        var lot = $(e.target).data().lot
+    progress: function() {
         $('.status-content').empty()
-        $('.status-content').append(Mustache.render($('#status-template').html(), {
-            lotNumber: lot,
-            time: moment().format("h:mm A")
-        })
-        )
-        $.mobile.changePage("#parking-status", {
-            role: "dialog"
-        });
+        $('.status-content').append(Mustache.render($('#status-template').html(), JSON.parse(window.localStorage.getItem('parking'))))
+        $(":mobile-pagecontainer").pagecontainer("change", $('#parking-status'), {role: "dialog"});
+
+    },
+
+    startParking: function(e) {
+        var lot = $(e.target).data().lot
+        window.localStorage.setItem('ui', 'PROGRESS');
+        window.localStorage.setItem('parking', JSON.stringify({lot: lot, startTime:moment().format("h:mm A")}))
         app.status(
          {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
          )
-        console.log("Testing")
+        app.initRegister();        
     },
 
     showLoading: function() {
