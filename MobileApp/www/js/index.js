@@ -23,6 +23,9 @@ var app = {
         $('body').on('click', '.close-bill', app.closeBill)
     },
     onDeviceReady: function() {
+        if(window.localStorage.getItem('ui')) {
+            window.localStorage.setItem('ui', 'DEFAULT');
+        }
         app.render();
     },
     
