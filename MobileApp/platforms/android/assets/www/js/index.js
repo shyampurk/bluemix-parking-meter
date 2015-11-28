@@ -23,36 +23,22 @@ var app = {
         $('body').on('click', '.close-bill', app.closeBill)
     },
     onDeviceReady: function() {
-        app.initRegister()
-        app.receivedEvent('deviceready')
+        app.render();
     },
-    initRegister: function() {
-        /*$('#vehicle-num-submit').on('click', function() {
-            window.localStorage.setItem('number', $('#number').val())
-            app.subscribeToSelf();
-            $( ":mobile-pagecontainer" ).pagecontainer( "change", "index.html" );
-            app.status(app.getStatusMessage)
-            app.showLoading()
-        })
-        if (!window.localStorage.getItem('number')) {
-            $.mobile.changePage("#register", {
-                role: "dialog"
-            });
-        } else {
-            app.showLoading()
-        }*/
-
+    
+    render: function() {
         if(!window.localStorage.getItem('ui')) {
             window.localStorage.setItem('ui', 'REGISTER');
         }
-
         switch(window.localStorage.getItem('ui')) {
             case 'REGISTER': 
                 app.register();
                 break;
-
             case 'PROGRESS': 
-                app.progress();
+                app.infoDialog('#status-template', 'parking');
+                break;
+            case 'BILL': 
+                app.infoDialog('#bill-template', 'bill');
                 break;
 
             default: 
@@ -67,7 +53,7 @@ var app = {
         $('#vehicle-num-submit').on('click', function() {
             window.localStorage.setItem('ui', 'DEFAULT')
             window.localStorage.setItem('number', $('#number').val())
-            app.initRegister()
+            app.render()
         })
     },
 
@@ -77,11 +63,11 @@ var app = {
         app.showLoading();
     },
 
-    progress: function() {
+    infoDialog: function(template, key) {
+        var data = JSON.parse(window.localStorage.getItem(key))
         $('.status-content').empty()
-        $('.status-content').append(Mustache.render($('#status-template').html(), JSON.parse(window.localStorage.getItem('parking'))))
-        $(":mobile-pagecontainer").pagecontainer("change", $('#parking-status'), {role: "dialog"});
-
+        $('.status-content').append(Mustache.render($(template).html(), data))
+        $(":mobile-pagecontainer").pagecontainer("change", $('#parking-status'));
     },
 
     startParking: function(e) {
@@ -91,7 +77,7 @@ var app = {
         app.status(
          {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
          )
-        app.initRegister();        
+        app.render();        
     },
 
     showLoading: function() {
@@ -102,11 +88,6 @@ var app = {
         });
     },
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        console.log('Received Event: ' + id);
-    },
-
     pubNubInit: function() {
         pubnub = PUBNUB({publish_key: 'demo',subscribe_key: 'demo'})
         app.subscribeToStatus() 
@@ -114,9 +95,8 @@ var app = {
     },
 
     closeBill: function() {
-        $( ":mobile-pagecontainer" ).pagecontainer( "change", "index.html" );
-        app.showLoading();
-        app.status(app.getStatusMessage);
+        window.localStorage.setItem('ui', 'DEFAULT');
+        app.render();
     },
 
     subscribeToStatus: function() {
@@ -139,30 +119,24 @@ var app = {
       pubnub.subscribe({
         channel: window.localStorage.getItem('number'),
         message: function(message) {
-            $.mobile.changePage("#parking-status", {
-                role: "dialog"
-            });
-            app.renderBill(message)
+            window.localStorage.setItem('ui', 'BILL');
+            window.localStorage.setItem('bill', JSON.stringify(message));
+            app.render();
         },            
     })  
   },
 
-  renderBill: function(message) {
-    $(".status-content").html(Mustache.render($('#bill-template').html(), message));      
-    console.log("Session ended")
-},
+    status: function(message) {
+        console.log("Requesting current parking status...");
+        pubnub.publish({
+            channel: "parkingapp-req",
+            message: message,
+            callback: function(m) {
+                console.log(m)
+            }
+        })
 
-status: function(message) {
-    console.log("Requesting current parking status...");
-    pubnub.publish({
-        channel: "parkingapp-req",
-        message: message,
-        callback: function(m) {
-            console.log(m)
-        }
-    })
-
-},
+    }
 
 };
 
