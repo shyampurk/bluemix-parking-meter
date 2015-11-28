@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div data-role="page">
+    <div data-role="page" id='default'>
         <div data-role="header" data-theme="b">
             <h1>Parking Map</h1>
         </div>
@@ -38,7 +38,7 @@
             <img class="entry-arrow" width="50px" height="50px" src="img/arrow_north.svg">
         </div>
     </div>
-    <div data-role="dialog" id="register" data-close-btn="none">
+    <div data-role="page" data-dialog="true" id="register" data-close-btn="none">
         <div class='dialog-container'>
             <div data-role="header" data-theme="b">
                 <h1>Auto-Park</h1>
@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-    <div data-role="dialog" id="parking-status">
+    <div data-role="page" data-dialog="true" id="parking-status" data-close-btn="none">
         <div class='dialog-container'>
             <div data-role="header" data-theme="b" >
                 <h1>Auto-Park</h1>
@@ -60,17 +60,7 @@
             <template id="status-template">You have parked your vehicle in LOT number {{lotNumber}} since {{time}}</template>
         </div>
     </div>
-    <div data-role="dialog" id="parking-status" data-close-btn="none">
-        <div class='dialog-container'>
-            <div data-role="header" data-theme="b" >
-                <h1>Auto-Park</h1>
-            </div>
-            <div class="ui-content status-content">
-            </div>
-            <template id="status-template">You have parked your vehicle in LOT number {{lotNumber}} since {{time}}</template>
-        </div>
-    </div>
-    <div data-role="dialog" id="bill-details">
+    <div data-role="page" data-dialog="true" id="bill-details">
         <div class='dialog-container'>
             <div data-role="header" data-theme="b" data-close-btn="right">
                 <h1>Auto-Park</h1>

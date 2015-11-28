@@ -1,4 +1,3 @@
-// Codes represented as array i.e. codeColor[0] corresponds to "available"
 var parkingCodes = {0: "available", 1: "occupied",2: "unavailable"}
 
 var app = {
@@ -28,7 +27,7 @@ var app = {
         app.receivedEvent('deviceready')
     },
     initRegister: function() {
-        $('#vehicle-num-submit').on('click', function() {
+        /*$('#vehicle-num-submit').on('click', function() {
             window.localStorage.setItem('number', $('#number').val())
             app.subscribeToSelf();
             $( ":mobile-pagecontainer" ).pagecontainer( "change", "index.html" );
@@ -41,7 +40,37 @@ var app = {
             });
         } else {
             app.showLoading()
+        }*/
+
+        if(!window.localStorage.getItem('ui')) {
+            window.localStorage.setItem('ui', 'REGISTER');
         }
+
+        switch(window.localStorage.getItem('ui')) {
+            case 'REGISTER': 
+            app.register();
+            break;
+
+            default: 
+            app.default();
+        }
+    },
+
+    register: function() {
+        $.mobile.changePage("#register", {
+            role: "dialog"
+        });
+        $('#vehicle-num-submit').on('click', function() {
+            window.localStorage.setItem('ui', 'DEFAULT')
+            window.localStorage.setItem('number', $('#number').val())
+            app.initRegister()
+        })
+    },
+
+    default: function() {
+        $( ":mobile-pagecontainer" ).pagecontainer( "change", $('#default'));
+        app.status(app.getStatusMessage);
+        app.showLoading();       
     },
 
     confirmParking: function(e) {
@@ -56,8 +85,8 @@ var app = {
             role: "dialog"
         });
         app.status(
-           {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
-           )
+         {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
+         )
         console.log("Testing")
     },
 
@@ -97,13 +126,6 @@ var app = {
                     .removeClass("available unavailable occupied")
                     .addClass(parkingCodes[message[lot]])
                 })
-                /*var currentStatus = Object.keys(message).reverse().map(function(key) {
-                    return parkingCodes[message[key]]
-                })
-                $('.parking-spot').each(function(i, elem) {
-                    $(elem).removeClass("available unavailable occupied").addClass(currentStatus[i])
-                })*/
-
             },
             connect: app.status(app.getStatusMessage)
         })

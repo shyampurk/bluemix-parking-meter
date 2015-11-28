@@ -27,7 +27,7 @@ var app = {
         app.receivedEvent('deviceready')
     },
     initRegister: function() {
-        $('#vehicle-num-submit').on('click', function() {
+        /*$('#vehicle-num-submit').on('click', function() {
             window.localStorage.setItem('number', $('#number').val())
             app.subscribeToSelf();
             $( ":mobile-pagecontainer" ).pagecontainer( "change", "index.html" );
@@ -40,7 +40,37 @@ var app = {
             });
         } else {
             app.showLoading()
+        }*/
+
+        if(!window.localStorage.getItem('ui')) {
+            window.localStorage.setItem('ui', 'REGISTER');
         }
+
+        switch(window.localStorage.getItem('ui')) {
+            case 'REGISTER': 
+            app.register();
+            break;
+
+            default: 
+            app.default();
+        }
+    },
+
+    register: function() {
+        $.mobile.changePage("#register", {
+            role: "dialog"
+        });
+        $('#vehicle-num-submit').on('click', function() {
+            window.localStorage.setItem('ui', 'DEFAULT')
+            window.localStorage.setItem('number', $('#number').val())
+            app.initRegister()
+        })
+    },
+
+    default: function() {
+        $( ":mobile-pagecontainer" ).pagecontainer( "change", $('#default'));
+        app.status(app.getStatusMessage);
+        app.showLoading();
     },
 
     confirmParking: function(e) {
@@ -55,8 +85,8 @@ var app = {
             role: "dialog"
         });
         app.status(
-           {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
-           )
+         {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
+         )
         console.log("Testing")
     },
 
