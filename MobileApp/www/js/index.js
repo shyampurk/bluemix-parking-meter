@@ -10,11 +10,11 @@ var app = {
       })
     },
 
-    getStatusMessage: {
-        "Requester": "APP",
-        "Device ID": 0,
-        "Request Type": 4,
-        "Request Value": 0
+    getStatusMessage:{
+        "requester": "APP",
+        "lotNumber": 0,
+        "requestType": 1,
+        "requestValue": 0
     },
 
     bindEvents: function() {
