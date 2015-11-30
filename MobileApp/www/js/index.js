@@ -4,8 +4,7 @@ var app = {
     initialize: function() {
         this.bindEvents();
         this.pubNubInit();
-        $(window).on("navigate", function (event, data) {
-          var direction = data.state.direction;
+        $(window).on("navigate", function (event, data) {          
           event.preventDefault();      
       })
     },
@@ -65,6 +64,7 @@ var app = {
 
     default: function() {
         $( ":mobile-pagecontainer" ).pagecontainer( "change", $('#default'));
+        app.subscribeToSelf();
         app.status(app.getStatusMessage);
         app.showLoading();
     },
@@ -96,8 +96,7 @@ var app = {
 
     pubNubInit: function() {
         pubnub = PUBNUB({publish_key: 'demo',subscribe_key: 'demo'})
-        app.subscribeToStatus() 
-        app.subscribeToSelf()              
+        app.subscribeToStatus()                      
     },
 
     closeBill: function() {
