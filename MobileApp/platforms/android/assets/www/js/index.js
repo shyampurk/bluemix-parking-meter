@@ -18,6 +18,7 @@ var app = {
 
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        $(document).on('resume', app.refreshStatus)
         $('.container').on('click', '.available', app.startParking)
         $('body').on('click', '.close-bill', app.closeBill)
     },
@@ -49,9 +50,7 @@ var app = {
     },
 
     register: function() {
-        $.mobile.changePage("#register", {
-            role: "dialog"
-        });
+        $(":mobile-pagecontainer").pagecontainer("change", $('#register'));
         $('#vehicle-num-submit').on('click', function() {
             if ($('#number').val() != '') {
                 window.localStorage.setItem('ui', 'DEFAULT')
@@ -92,6 +91,12 @@ var app = {
             textVisible: true,
             textonly: false
         });
+    },
+
+    refreshStatus: function() {
+        if (window.localStorage.getItem('ui') == 'DEFAULT') {
+            app.status(app.getStatusMessage)
+        }
     },
 
     pubNubInit: function() {
