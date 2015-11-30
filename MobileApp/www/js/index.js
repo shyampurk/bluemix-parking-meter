@@ -35,14 +35,14 @@ var app = {
         }
         switch(window.localStorage.getItem('ui')) {
             case 'REGISTER': 
-                app.register();
-                break;
+            app.register();
+            break;
             case 'PROGRESS': 
-                app.infoDialog('#status-template', 'parking');
-                break;
+            app.infoDialog('#status-template', 'parking');
+            break;
             case 'BILL': 
-                app.infoDialog('#bill-template', 'bill');
-                break;
+            app.infoDialog('#bill-template', 'bill');
+            break;
 
             default: 
             app.default();
@@ -54,9 +54,12 @@ var app = {
             role: "dialog"
         });
         $('#vehicle-num-submit').on('click', function() {
-            window.localStorage.setItem('ui', 'DEFAULT')
-            window.localStorage.setItem('number', $('#number').val())
-            app.render()
+            if ($('#number').val() != '') {
+                window.localStorage.setItem('ui', 'DEFAULT')
+                window.localStorage.setItem('number', $('#number').val())
+                app.render()    
+            }
+            
         })
     },
 
@@ -78,8 +81,8 @@ var app = {
         window.localStorage.setItem('ui', 'PROGRESS');
         window.localStorage.setItem('parking', JSON.stringify({lot: lot, startTime:moment().format("h:mm A")}))
         app.status(
-         {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
-         )
+           {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
+           )
         app.render();        
     },
 
@@ -129,17 +132,17 @@ var app = {
     })  
   },
 
-    status: function(message) {
-        console.log("Requesting current parking status...");
-        pubnub.publish({
-            channel: "parkingapp-req",
-            message: message,
-            callback: function(m) {
-                console.log(m)
-            }
-        })
+  status: function(message) {
+    console.log("Requesting current parking status...");
+    pubnub.publish({
+        channel: "parkingapp-req",
+        message: message,
+        callback: function(m) {
+            console.log(m)
+        }
+    })
 
-    }
+}
 
 };
 
