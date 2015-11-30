@@ -37,10 +37,10 @@ var app = {
             case 'REGISTER': 
             app.register();
             break;
-            case 'PROGRESS': 
+            case 'START': 
             app.infoDialog('#status-template', 'parking');
             break;
-            case 'BILL': 
+            case 'END': 
             app.infoDialog('#bill-template', 'bill');
             break;
 
@@ -65,7 +65,7 @@ var app = {
         $( ":mobile-pagecontainer" ).pagecontainer( "change", $('#default'));
         app.subscribeToSelf();
         app.status(app.getStatusMessage);
-        app.showLoading();
+        app.showLoading("Fetching Current Status");
     },
 
     infoDialog: function(template, key) {
@@ -76,18 +76,16 @@ var app = {
     },
 
     startParking: function(e) {
-        var lot = $(e.target).data().lot
-        window.localStorage.setItem('ui', 'PROGRESS');
-        window.localStorage.setItem('parking', JSON.stringify({lot: lot, startTime:moment().format("h:mm A")}))
+        var lot = $(e.target).data().lot        
         app.status(
            {"requester":"APP","lotNumber":lot,"requestType":2,"requestValue":window.localStorage.getItem('number')}
            )
-        app.render();        
+        app.showLoading("Waiting for confirmation...");
     },
 
-    showLoading: function() {
+    showLoading: function(text) {
         $.mobile.loading("show", {
-            text: "Fetching Current Status",
+            text: text,
             textVisible: true,
             textonly: false
         });
@@ -129,8 +127,15 @@ var app = {
       pubnub.subscribe({
         channel: window.localStorage.getItem('number'),
         message: function(message) {
-            window.localStorage.setItem('ui', 'BILL');
-            window.localStorage.setItem('bill', JSON.stringify(message));
+            $.mobile.loading("hide");
+            if (message.sessionType == 0) {
+                window.localStorage.setItem('ui', 'START');
+                window.localStorage.setItem('parking', JSON.stringify(message));    
+            } else {
+                window.localStorage.setItem('ui', 'END');
+                window.localStorage.setItem('bill', JSON.stringify(message));    
+            }
+            
             app.render();
         },            
     })  
