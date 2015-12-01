@@ -3,7 +3,6 @@ var parkingCodes = {0: "available", 1: "occupied",2: "unavailable"}
 var app = {
     initialize: function() {
         this.bindEvents();
-        this.pubNubInit();
         $(window).on("navigate", function (event, data) {          
           event.preventDefault();      
       })
@@ -26,6 +25,7 @@ var app = {
         if(window.localStorage.getItem('ui')) {
             window.localStorage.setItem('ui', 'DEFAULT');
         }
+        app.pubNubInit();
         app.render();
     },
     

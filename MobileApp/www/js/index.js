@@ -25,7 +25,7 @@ var app = {
         if(window.localStorage.getItem('ui')) {
             window.localStorage.setItem('ui', 'DEFAULT');
         }
-        this.pubNubInit();
+        app.pubNubInit();
         app.render();
     },
     
