@@ -49,6 +49,7 @@ var app = {
         }
     },
 
+
     register: function() {
         $(":mobile-pagecontainer").pagecontainer("change", $('#register'));
         $('#vehicle-num-submit').on('click', function() {
@@ -63,9 +64,10 @@ var app = {
 
     default: function() {
         $( ":mobile-pagecontainer" ).pagecontainer( "change", $('#default'));
-        app.subscribeToSelf();
-        app.status(app.getStatusMessage);
         app.showLoading("Fetching Current Status");
+        app.subscribeToSelf();
+        window.setTimeout(function() {
+            app.status(app.getStatusMessage)},2000);
     },
 
     infoDialog: function(template, key) {
@@ -112,6 +114,7 @@ var app = {
         pubnub.subscribe({
             channel: "parkingapp-resp",
             message: function(message) {
+                console.log("Current Status", message);
                 $.mobile.loading("hide");
                 Object.keys(message).forEach(function(lot){
                     $("div[data-lot="+lot+"]")
@@ -119,7 +122,10 @@ var app = {
                     .addClass(parkingCodes[message[lot]])
                 })
             },
-            connect: app.status(app.getStatusMessage)
+            connect: function(){
+                console.log("connected")
+                app.status(app.getStatusMessage)
+            }
         })
     },
 
@@ -148,6 +154,9 @@ var app = {
         message: message,
         callback: function(m) {
             console.log(m)
+        },
+        error: function(err) {
+            console.log(err)
         }
     })
 
