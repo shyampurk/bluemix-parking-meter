@@ -1,9 +1,19 @@
+'''*********************************************************************************
+SERVER - SMART PARKING LOT SYSTEM
+*********************************************************************************'''
+#Import the Modules Required
 from pubnub import Pubnub
 import json
 import datetime
 from threading import Thread
 import time
-pubnub = Pubnub(publish_key="pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90", subscribe_key="sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f")
+
+pub_key = "pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90"
+sub_key = "sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f"
+
+#Pubnub Key Initialization 
+pubnub = Pubnub(publish_key=pub_key, 
+				subscribe_key=sub_key)
 # Holds the Present Status of all the Parking Lots Updated
 g_orginalStatus = dict()
 g_parkingStatus = dict()			
@@ -94,9 +104,9 @@ def carReserved(p_lotNumber,p_status):
 	else:
 		sessionEnd(p_lotNumber,p_status)
 		g_parkingStatus[p_lotNumber] = p_status
-		print pubnub.publish(channel='parkingapp-resp', message={p_lotNumber:p_status})
+		pubnub.publish(channel='parkingapp-resp', message={p_lotNumber:p_status})
 
-def checking (p_requester,p_reqtype,p_deviceid,p_carNum):
+def appRequest(p_requester,p_reqtype,p_deviceid,p_carNum):
 	if (p_requester == "APP"):
 		if (p_reqtype == 1):
 			pubnub.publish(channel='parkingapp-resp', message=g_parkingStatus)
@@ -127,13 +137,17 @@ def checking (p_requester,p_reqtype,p_deviceid,p_carNum):
 				print "CAR NOT PARKED SUCCESSFULLY"
 
 def callback(message, channel):
-	print message
-	carReserved(message["deviceID"],message["value"])
+	if(message.has_key("deviceID") and message.has_key("value")):
+		carReserved(message["deviceID"],message["value"])
+	else:
+		pass
 	
 def appcallback(message, channel):
-	print message
-	checking(message["requester"],message["requestType"],message["deviceID"],message["requestValue"])
-         
+	if(message.has_key("requester") and message.has_key("lotNumber") and message.has_key("requestType") and message.has_key("requestValue")):
+		appRequest(message["requester"],message["requestType"],message["lotNumber"],message["requestValue"])
+	else:
+		pass
+
 def error(message):
     print("ERROR : " + str(message))
    
@@ -154,6 +168,7 @@ if __name__ == '__main__':
 		l_timeout = Thread(target=closeReservation)
 		l_timeout.start()
 		l_timeout.join()
+
 #End of the Script 
 ##*****************************************************************************************************##
 
