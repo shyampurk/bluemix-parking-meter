@@ -33,9 +33,9 @@ int pubnub_send(char *p_data);
 
 /**************************************************************************************
 
-Function Name 		:	uartInit
+Function Name 	:	uartInit
 Description		:	Initialize the UART Serial Communication between the 
-				Raspberry Pi and the Atmega 8a Microcontroller
+					Raspberry Pi and the Atmega 8a Microcontroller
 Parameters 		:	void
 Return 			:	int - when uart connection fails returns -1 else 0
 
@@ -154,9 +154,9 @@ void prepare_json_data(char *p_lot,int p_status)
 
 /****************************************************************************************
 
-Function Name 		:	main
+Function Name 	:	main
 Description		:	Initalize UART, Thread and publish if any status change
-				in the parking lots
+					in the parking lots
 Parameters 		:	void
 Return 			:	int, if error in the function returns -1 else 0
 
@@ -227,3 +227,4 @@ int main(int argc,char *argv[])
 }
 
 //End of the Program
+//********************************************************************************************//
