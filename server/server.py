@@ -45,9 +45,9 @@ g_lotNumberList = list()
 '''****************************************************************************************
 
 Function Name 	:	init
-Description		:	Initalize the pubnub keys and Starts Subscribing from the 
-					parkingdevice-resp and parkingapp-req channels
-Parameters 		:	None
+Description	:	Initalize the pubnub keys and Starts Subscribing from the 
+			parkingdevice-resp and parkingapp-req channels
+Parameters 	:	None
 
 ****************************************************************************************'''
 def init():
@@ -60,9 +60,9 @@ def init():
 '''****************************************************************************************
 
 Function Name 	:	checkList
-Description		:	Checks the list each time the lot gets Reserved and verifies the 
-					lot is not in the list
-Parameters 		:	p_lotNumber - Parking lot Number 
+Description	:	Checks the list each time the lot gets Reserved and verifies the 
+			lot is not in the list
+Parameters 	:	p_lotNumber - Parking lot Number 
 
 ****************************************************************************************'''
 def checkList(p_lotNumber):
@@ -75,9 +75,9 @@ def checkList(p_lotNumber):
 '''****************************************************************************************
 
 Function Name 	:	closeReservation
-Description		:	Closes the Reservation either by timeout or the hardware deducts
-					parking lot gets free
-Parameters 		:	None
+Description	:	Closes the Reservation either by timeout or the hardware deducts
+			parking lot gets free
+Parameters 	:	None
 
 ****************************************************************************************'''
 def closeReservation():
@@ -106,9 +106,9 @@ def closeReservation():
 '''****************************************************************************************
 
 Function Name 	:	sessionEnd
-Description		:	Ends the Metering and Charges the User 
-Parameters 		:	p_deviceid - Lot number 
-					p_status - Status of the Parking Lot
+Description	:	Ends the Metering and Charges the User 
+Parameters 	:	p_deviceid - Lot number 
+			p_status - Status of the Parking Lot
 
 ****************************************************************************************'''
 def sessionEnd(p_deviceid,p_status):
@@ -156,10 +156,10 @@ def sessionEnd(p_deviceid,p_status):
 '''****************************************************************************************
 
 Function Name 	:	carReserved
-Description		:	Verifies the list did the car already parked, if not 
-					Reserves the parking lot
-Parameters 		:	p_lotNumber - Lot Number
-					p_status - Status of the Parking Lot
+Description	:	Verifies the list did the car already parked, if not 
+			Reserves the parking lot
+Parameters 	:	p_lotNumber - Lot Number
+			p_status - Status of the Parking Lot
 
 ****************************************************************************************'''
 def carReserved(p_lotNumber,p_status):
@@ -174,14 +174,14 @@ def carReserved(p_lotNumber,p_status):
 '''****************************************************************************************
 
 Function Name 	:	appRequest
-Description		:	Handles the Request sent from an app and responds with the 
-					current status or with the Session start message
-Parameters 		:	p_requester - Request sent from DEVICE or APP
-					p_reqtype - Type of the request 
-						1 : Request for the all parking lot status
-						2 : Request for the Session start
-					p_deviceid - Parking Lot Number
-					p_carNum - Car Number
+Description	:	Handles the Request sent from an app and responds with the 
+			current status or with the Session start message
+Parameters 	:	p_requester - Request sent from DEVICE or APP
+			p_reqtype - Type of the request 
+				1 : Request for the all parking lot status
+				2 : Request for the Session start
+			p_deviceid - Parking Lot Number
+			p_carNum - Car Number
 
 ****************************************************************************************'''
 def appRequest(p_requester,p_reqtype,p_deviceid,p_carNum):
@@ -218,9 +218,9 @@ def appRequest(p_requester,p_reqtype,p_deviceid,p_carNum):
 '''****************************************************************************************
 
 Function Name 	:	callback
-Description		:	Waits for the message from the parkingdevice-resp channel
-Parameters 		:	message - Sensor Status sent from the hardware
-					channel - channel for the callback
+Description	:	Waits for the message from the parkingdevice-resp channel
+Parameters 	:	message - Sensor Status sent from the hardware
+			channel - channel for the callback
 	
 ****************************************************************************************'''
 def callback(message, channel):
@@ -232,9 +232,9 @@ def callback(message, channel):
 '''****************************************************************************************
 
 Function Name 	:	appcallback
-Description		:	Waits for the Request sent from the APP 
-Parameters 		:	message - Request sent from the app
-					channel - channel for the appcallback
+Description	:	Waits for the Request sent from the APP 
+Parameters 	:	message - Request sent from the app
+			channel - channel for the appcallback
 
 ****************************************************************************************'''
 def appcallback(message, channel):
@@ -246,8 +246,8 @@ def appcallback(message, channel):
 '''****************************************************************************************
 
 Function Name 	:	error
-Description		:	If error in the channel, prints the error
-Parameters 		:	message - error message
+Description	:	If error in the channel, prints the error
+Parameters 	:	message - error message
 
 ****************************************************************************************'''
 def error(message):
@@ -256,8 +256,8 @@ def error(message):
 '''****************************************************************************************
 
 Function Name 	:	reconnect
-Description		:	Responds if server connects with pubnub
-Parameters 		:	message
+Description	:	Responds if server connects with pubnub
+Parameters 	:	message
 
 ****************************************************************************************'''
 def reconnect(message):
@@ -266,8 +266,8 @@ def reconnect(message):
 '''****************************************************************************************
 
 Function Name 	:	disconnect
-Description		:	Responds if server disconnects from pubnub
-Parameters 		:	message
+Description	:	Responds if server disconnects from pubnub
+Parameters 	:	message
 
 ****************************************************************************************'''
 def disconnect(message):
@@ -276,8 +276,8 @@ def disconnect(message):
 '''****************************************************************************************
 
 Function Name 	:	__main__
-Description		:	Conditional Stanza where the Script starts to run
-Parameters 		:	None
+Description	:	Conditional Stanza where the Script starts to run
+Parameters 	:	None
 
 ****************************************************************************************'''
 if __name__ == '__main__':
