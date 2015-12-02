@@ -5,8 +5,8 @@ from pubnub import Pubnub
 from threading import Thread
 import sys
 
-pub_key = "pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90"
-sub_key = "sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f"
+pub_key = "demo"
+sub_key = "demo"
 
 g_userData = dict()
 g_myCar = dict()
