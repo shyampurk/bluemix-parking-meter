@@ -104,7 +104,6 @@ h1 {
     top: -1.88em;
 }
 
-
 /*Custom jQuery Mobile Styles */
 
 #parking-status-popup {
@@ -116,3 +115,8 @@ h1 {
   font-size: 1.2em;
   font-weight: 800;
 }
+
+#parking-status-popup.bill{
+    top: 28% !important;
+}
+

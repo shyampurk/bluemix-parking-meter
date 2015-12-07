@@ -76,7 +76,12 @@ var app = {
         $('.status-content').empty()
         $('.status-content').append(Mustache.render($(template).html(), data))
         $( "#parking-status" ).popup( "open" )
-        //$(":mobile-pagecontainer").pagecontainer("change", $('#parking-status'));
+        if (key == 'bill') {
+            $('#parking-status-popup').addClass('bill')
+        } else {
+            $('#parking-status-popup').removeClass('bill')
+        }       
+        
     },
 
     startParking: function(e) {
