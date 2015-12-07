@@ -12,8 +12,8 @@ SMART PARKING LOT SYSTEM
 #include "pubnub_sync.h"
 
 //Pubnub Publish and Subscribe Keys
-const char *pub_key = "pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90";
-const char *sub_key = "sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f";
+const char *pub_key = "demo";
+const char *sub_key = "demo";
 
 //Individual Parking ID's for the Parking LOT's 
 char *g_lot1 = "001";
@@ -33,11 +33,11 @@ int pubnub_send(char *p_data);
 
 /**************************************************************************************
 
-Function Name 		:	uartInit
-Description		:	Initialize the UART Serial Communication between the 
-				Raspberry Pi and the Atmega 8a Microcontroller
-Parameters 		:	void
-Return 			:	int - when uart connection fails returns -1 else 0
+Function Name 	:	uartInit
+Description	:	Initialize the UART Serial Communication between the 
+			Raspberry Pi and the Atmega 8a Microcontroller
+Parameters 	:	void
+Return 		:	int - when uart connection fails returns -1 else 0
 
 **************************************************************************************/
 
@@ -65,12 +65,12 @@ int uartInit(char *port)
 /******************************************************************************************
 
 Function Name 	:	pubnub_send
-Description		:	Publish the present status of the parking lots to the 
-					Requested App
-Parameters 		:	p_data
-		p_data  :	Parameter is the char pointer holds the data has to be 
-					sent to the Requested App
-Return 			:	int, if error in sent thr function returns -1 else 0
+Description	:	Publish the present status of the parking lots to the 
+			Requested App
+Parameters 	:	p_data
+	p_data  :	Parameter is the char pointer holds the data has to be 
+			sent to the Requested App
+Return 		:	int, if error in sent thr function returns -1 else 0
 
 *****************************************************************************************/
 
@@ -131,9 +131,9 @@ int pubnub_send(char *p_data)
 
 /***************************************************************************************
 
-Function Name 	:	prepare_json_data
+Function Name 		:	prepare_json_data
 Description		:	With the Present Status of the Parking Lots 
-					this function makes a json data to be sent as Response
+				this function makes a json data to be sent as Response
 Parameters 		:	p_status
 	p_status	:	Status of the first Parking Lot
 Return 			:	void
@@ -156,7 +156,7 @@ void prepare_json_data(char *p_lot,int p_status)
 
 Function Name 		:	main
 Description		:	Initalize UART, Thread and publish if any status change
-				in the parking lots
+					in the parking lots
 Parameters 		:	void
 Return 			:	int, if error in the function returns -1 else 0
 
@@ -227,3 +227,4 @@ int main(int argc,char *argv[])
 }
 
 //End of the Program
+//********************************************************************************************//

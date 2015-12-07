@@ -8,23 +8,63 @@ import datetime
 from threading import Thread
 import time
 
-pub_key = "pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90"
-sub_key = "sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f"
+# Initialize the Pubnub Keys 
+pub_key = "demo"
+sub_key = "demo"
 
-#Pubnub Key Initialization 
-pubnub = Pubnub(publish_key=pub_key, 
-				subscribe_key=sub_key)
-# Holds the Present Status of all the Parking Lots Updated
+# Status of the Parking lots with key words
+PARKING_STATUS_FREE = 0
+PARKIGN_STATUS_RESERVED = 1
+
+# Holds the Present Status of all the Parking Lots from the hardware 
+'''{"lotNumber":"lot Status"}'''
 g_orginalStatus = dict()
-g_parkingStatus = dict()			
-# Notifies the App about Session Start and End
+
+# Holds the Status of all Parking Lots according to the App 
+'''{"lotNumber":"lot Status"}'''
+g_parkingStatus = dict()		
+
+# Notifies about Reservation Session Start and End for the individal App's
+'''{"lotNumber":["sessionType","carNumber","startTime","endTime","totalTime","totalAmount"]}'''
 g_sessionStatus = dict()
-# Starts the Reservation and Meterting of the Particular Slot
+
+# Reserves the LOT and Starts the Meter
+'''{"lotNumber":["carNummber","startTime","endTime"]}'''
 g_smartMeter = dict()
-# Handles the Reservation Slot 
+
+''' Handles the Reserved Slot 
+	Holds the Start Time and End Time for the lot Reserved and Closes the Reservation
+	if the Car does not park and charges for the time elapsed
+	{"lotNumber":["carNummber","startTime","endTime"]}
+'''
 g_lotReserved = dict()
+
+# List Hold the Reserved Parking Lots and free's the list if the lot gets empty
 g_lotNumberList = list()
 
+'''****************************************************************************************
+
+Function Name 	:	init
+Description	:	Initalize the pubnub keys and Starts Subscribing from the 
+			parkingdevice-resp and parkingapp-req channels
+Parameters 	:	None
+
+****************************************************************************************'''
+def init():
+	#Pubnub Initialization
+	global pubnub 
+	pubnub = Pubnub(publish_key=pub_key,subscribe_key=sub_key)
+	pubnub.subscribe(channels='parkingdevice-resp', callback=callback, error=callback, reconnect=reconnect, disconnect=disconnect)
+	pubnub.subscribe(channels='parkingapp-req', callback=appcallback, error=appcallback, reconnect=reconnect, disconnect=disconnect)
+
+'''****************************************************************************************
+
+Function Name 	:	checkList
+Description	:	Checks the list each time the lot gets Reserved and verifies the 
+			lot is not in the list
+Parameters 	:	p_lotNumber - Parking lot Number 
+
+****************************************************************************************'''
 def checkList(p_lotNumber):
 	l_count = 0
 	for i in range(len(g_lotNumberList)):
@@ -32,6 +72,14 @@ def checkList(p_lotNumber):
 			l_count+=1
 	return l_count
 
+'''****************************************************************************************
+
+Function Name 	:	closeReservation
+Description	:	Closes the Reservation either by timeout or the hardware deducts
+			parking lot gets free
+Parameters 	:	None
+
+****************************************************************************************'''
 def closeReservation():
 	l_endTime = datetime.datetime.now()
 	time.sleep(1)
@@ -55,8 +103,16 @@ def closeReservation():
 	else:
 		pass
 
+'''****************************************************************************************
+
+Function Name 	:	sessionEnd
+Description	:	Ends the Metering and Charges the User 
+Parameters 	:	p_deviceid - Lot number 
+			p_status - Status of the Parking Lot
+
+****************************************************************************************'''
 def sessionEnd(p_deviceid,p_status):
-	if(g_smartMeter.has_key(p_deviceid) and p_status == 0):
+	if(g_smartMeter.has_key(p_deviceid) and p_status == PARKING_STATUS_FREE):
 		l_endTime = datetime.datetime.now()
 		g_smartMeter[p_deviceid][2] = l_endTime
 		l_etimeStr = str(l_endTime.hour) + ":" + str(l_endTime.minute) + ":" + str(l_endTime.second)
@@ -97,18 +153,41 @@ def sessionEnd(p_deviceid,p_status):
 	else:
 		pass
 
+'''****************************************************************************************
+
+Function Name 	:	carReserved
+Description	:	Verifies the list did the car already parked, if not 
+			Reserves the parking lot
+Parameters 	:	p_lotNumber - Lot Number
+			p_status - Status of the Parking Lot
+
+****************************************************************************************'''
 def carReserved(p_lotNumber,p_status):
 	g_orginalStatus[p_lotNumber] = p_status
-	if(checkList(p_lotNumber) != 0 and p_status == 0):
-		g_parkingStatus[p_lotNumber] = 1
+	if(checkList(p_lotNumber) != 0 and p_status == PARKING_STATUS_FREE):
+		g_parkingStatus[p_lotNumber] = PARKIGN_STATUS_RESERVED
 	else:
 		sessionEnd(p_lotNumber,p_status)
 		g_parkingStatus[p_lotNumber] = p_status
 		pubnub.publish(channel='parkingapp-resp', message={p_lotNumber:p_status})
 
+'''****************************************************************************************
+
+Function Name 	:	appRequest
+Description	:	Handles the Request sent from an app and responds with the 
+			current status or with the Session start message
+Parameters 	:	p_requester - Request sent from DEVICE or APP
+			p_reqtype - Type of the request 
+				1 : Request for the all parking lot status
+				2 : Request for the Session start
+			p_deviceid - Parking Lot Number
+			p_carNum - Car Number
+
+****************************************************************************************'''
 def appRequest(p_requester,p_reqtype,p_deviceid,p_carNum):
 	if (p_requester == "APP"):
 		if (p_reqtype == 1):
+			# Publishing the Status of the all the Parking Lots
 			pubnub.publish(channel='parkingapp-resp', message=g_parkingStatus)
 		elif (p_reqtype == 2):
 			g_smartMeter[p_deviceid] = [p_carNum,0,0,0]
@@ -128,42 +207,82 @@ def appRequest(p_requester,p_reqtype,p_deviceid,p_carNum):
 				g_sessionStatus["totalTime"] = 0
 				g_sessionStatus["totalAmt"] = 0
 				pubnub.publish(channel=p_carNum, message=g_sessionStatus)
-				g_parkingStatus[p_deviceid] = 1
+				g_parkingStatus[p_deviceid] = PARKIGN_STATUS_RESERVED
 				g_lotReserved[p_deviceid] = l_startTime 
 				if(checkList(p_deviceid)==0):
 					g_lotNumberList.append(p_deviceid)
 				pubnub.publish(channel='parkingapp-resp', message=g_parkingStatus)
 			else:
-				print "CAR NOT PARKED SUCCESSFULLY"
+				pass
 
+'''****************************************************************************************
+
+Function Name 	:	callback
+Description	:	Waits for the message from the parkingdevice-resp channel
+Parameters 	:	message - Sensor Status sent from the hardware
+			channel - channel for the callback
+	
+****************************************************************************************'''
 def callback(message, channel):
 	if(message.has_key("deviceID") and message.has_key("value")):
 		carReserved(message["deviceID"],message["value"])
 	else:
 		pass
-	
+
+'''****************************************************************************************
+
+Function Name 	:	appcallback
+Description	:	Waits for the Request sent from the APP 
+Parameters 	:	message - Request sent from the app
+			channel - channel for the appcallback
+
+****************************************************************************************'''
 def appcallback(message, channel):
 	if(message.has_key("requester") and message.has_key("lotNumber") and message.has_key("requestType") and message.has_key("requestValue")):
 		appRequest(message["requester"],message["requestType"],message["lotNumber"],message["requestValue"])
 	else:
 		pass
 
+'''****************************************************************************************
+
+Function Name 	:	error
+Description	:	If error in the channel, prints the error
+Parameters 	:	message - error message
+
+****************************************************************************************'''
 def error(message):
     print("ERROR : " + str(message))
-   
+
+'''****************************************************************************************
+
+Function Name 	:	reconnect
+Description	:	Responds if server connects with pubnub
+Parameters 	:	message
+
+****************************************************************************************'''
 def reconnect(message):
     print("RECONNECTED")
-  
+
+'''****************************************************************************************
+
+Function Name 	:	disconnect
+Description	:	Responds if server disconnects from pubnub
+Parameters 	:	message
+
+****************************************************************************************'''
 def disconnect(message):
     print("DISCONNECTED")
 
-pubnub.subscribe(channels='parkingdevice-resp', callback=callback, error=callback,
-                 reconnect=reconnect, disconnect=disconnect)
+'''****************************************************************************************
 
-pubnub.subscribe(channels='parkingapp-req', callback=appcallback, error=appcallback,
-                 reconnect=reconnect, disconnect=disconnect)
+Function Name 	:	__main__
+Description	:	Conditional Stanza where the Script starts to run
+Parameters 	:	None
 
+****************************************************************************************'''
 if __name__ == '__main__':
+	#Initialize the Script
+	init()
 	while True:
 		l_timeout = Thread(target=closeReservation)
 		l_timeout.start()
