@@ -50,22 +50,19 @@
             </div>
         </div>
     </div>
-    <div data-role="page" data-dialog="true" id="parking-status" data-close-btn="none">
-        <div class='dialog-container'>
-            <div data-role="header" data-theme="b" >
-                <h1>Auto-Park</h1>
-            </div>
-            <div class="ui-content status-content">
-            </div>
-            <template id="status-template">You have parked your vehicle in LOT number {{lotNumber}} since {{startTime}}</template>
-            <template id="bill-template"><h4>Thank you for using Auto-Park. Details for last session.</h4>
-                <h3>Total Amount Due: <strong>Rs.{{totalAmt}}</strong></h3>
-                <h3>Start Time: {{startTime}}</h3>
-                <h3>End Time: {{endTime}}</h3>
-                <h3>Total Time: {{totalTime}}</h3>
-                <input type="button" class="close-bill" value="OK">
-            </template>
+    <div data-role="popup" data-dismissible="false" id="parking-status" data-close-btn="none">
+        
+        <div class="ui-content status-content">
         </div>
+        <template id="status-template">You have parked your vehicle in LOT number {{lotNumber}} since {{startTime}}</template>
+        <template id="bill-template"><h4>Thank you for using Auto-Park. Details for last session.</h4>
+            <h3>Total Amount Due: <strong>Rs.{{totalAmt}}</strong></h3>
+            <h3>Start Time: {{startTime}}</h3>
+            <h3>End Time: {{endTime}}</h3>
+            <h3>Total Time: {{totalTime}}</h3>
+            <input type="button" class="close-bill" value="OK">
+        </template>
+        
     </div>    
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>

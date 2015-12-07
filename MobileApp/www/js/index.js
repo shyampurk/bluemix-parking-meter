@@ -71,10 +71,12 @@ var app = {
     },
 
     infoDialog: function(template, key) {
+        $("#parking-status").popup()
         var data = JSON.parse(window.localStorage.getItem(key))
         $('.status-content').empty()
         $('.status-content').append(Mustache.render($(template).html(), data))
-        $(":mobile-pagecontainer").pagecontainer("change", $('#parking-status'));
+        $( "#parking-status" ).popup( "open" )
+        //$(":mobile-pagecontainer").pagecontainer("change", $('#parking-status'));
     },
 
     startParking: function(e) {
