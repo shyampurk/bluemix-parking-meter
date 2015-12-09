@@ -7,7 +7,7 @@
 				
 				https://www.arduino.cc/en/Main/Software#toc8
 
-2. The Arduino YUN has Enough space to install the required enviroinment, if not follow the steps on the following link
+2. The Arduino YUN has enough space to install the required enviroinment. If not then follow the steps in the following link
  
 				https://www.arduino.cc/en/Tutorial/ExpandingYunDiskSpace
 
@@ -26,6 +26,8 @@
 		Android-SDK v 24.4.1
 		JAVA v 1.8.0_66
 		nodejs v 0.10.25
+
+	The Cordova app has been build on Ubuntu/Debian Linux based system.
 
 3. Before preceeding for build and install steps, the users are expected update the PubNub publish and subscribe keys as per their PubNub subscription, in the following source files. 
 		
@@ -74,7 +76,7 @@ Step 1 : Install yun-gcc to Arduino YUN
 
 				opkg -t /root install yun-gcc
 
-This package will take about 20 minutes or more to install so be patient, once it finishes you will be ready to compile simple c or c++ programs.I prefer to download and install this package separately so I can see what is going on:
+This package will take about 20 minutes or more to install so be patient, once it finishes you will be ready to compile simple c or c++ programs.It is prefered to download and install this package separately so that we can see what is going on:
 				
 				cd /mnt/sda1
 				wget http://downloads.arduino.cc/openwrtyun/1/packages/yun-gcc_4.6.2-2_ar71xx.ipk
@@ -138,7 +140,9 @@ Step 8: To Build using the Makefile, just run
 
     			make
 
-Step 9: You should see the executable file named ./pubnub_hc04. You can execute the file to test if it executes without any error.
+Step 9: You should see the executable file named ./pubnub_hc04. To execute the program run the file as follows.
+			
+			./pubnub_hc04 /dev/ttyATH0
 
 ## Sensor Controller Build
 
