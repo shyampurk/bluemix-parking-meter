@@ -31,8 +31,9 @@
 
 3. Before preceeding for build and install steps, the users are expected update the PubNub publish and subscribe keys as per their PubNub subscription, in the following source files. 
 		
-		server/server.py
-		MobileApp/www/js/index.js
+		server/server.py (For The Parking Management Application Server)
+		MobileApp/www/js/index.js (For Mobile App)
+		yun_pubnub/pubnub_hc04.c (For Master Controller)
 
 If you do not have a PubNub subscription, [Click here](https://www.pubnub.com/get-started/#get-started) to create your free PubNub account.
  
