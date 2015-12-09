@@ -166,7 +166,7 @@ Step 3: Select the USB Port from Tools - > Port - > yourname @ ipaddress [Arduin
 Step 4: Upload the Code
 
 
-## Installing and Building Android App Using Cordova
+## Setting up Build Environment for Android & Cordova
 
 
 Step 1: Install GIT using the following command using your terminal,
