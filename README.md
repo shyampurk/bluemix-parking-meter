@@ -14,7 +14,7 @@ Refer [Circuit Diagram](schematic.png)
 
 The application has three parts
 
-1) Parking management Server - This is the application server written in Python which manages the parking reservations, billing and broadcasts parking status updates to all Apps. For hosting this on IBM Bluemix, refer the "Application Server Hosting" section below.
+1) Parking management Server - This is the application server written in Python which manages the parking reservations, billing and broadcasts parking status updates to all Apps. For hosting this on IBM Bluemix, refer the "APPLICATION SERVER HOSTING" section below.
 
 2) Hardware - This is the master controller module which runs on Arduino YUN. It periodically gets the status of parking slots within its jurisdiction, from the ultrasonic sensors.
 
@@ -24,14 +24,14 @@ The application has three parts
 
 Refer [Build & Install](BUILD.md) Steps
 
-## Application Server Hosting
+## APPLICATION SERVER HOSTING
 
 For hosting the Parking management Server on IBM Bluemix, follow the steps as given below
 
 
 1. Signup to create your trial [IBM Bluemix account](https://developer.ibm.com/bluemix/#gettingstarted).
  
-3. Follow the [Bluemix Documentation](https://www.ng.bluemix.net/docs/) to create your bluemix container
+3. Follow the [Bluemix Documentation](https://www.ng.bluemix.net/docs/) to create your bluemix container 
 
 4. Install the [PubNub service](https://www.pubnub.com/blog/2015-09-09-getting-started-pubnub-ibm-bluemix/) and attach it to your comtainer.
  
@@ -47,28 +47,25 @@ For hosting the Parking management Server on IBM Bluemix, follow the steps as gi
 
 2) Install the Mobile app in an android phone and ensure that the phone has access to internet.
 
-1) Power up the hadrware setup and make sure that Arduino YUN has access to internet.
+3) Power up the hadrware setup and make sure that Arduino YUN has access to internet.
 
-2) Make sure that the ultrasonic sensors are not obstructed 
+4) Make sure that the ultrasonic sensors are not obstructed 
 
-3) Launch the mobile app. Upon launching, it will ask the user for entering his vehicle registration ( license plate ) number. Feed in a number and proceed. 
+5) Launch the mobile app. Upon launching, it will ask the user for entering his vehicle registration ( license plate ) number. Feed in the number and proceed. 
 
+6) Check that the initial status of all the parking bays is green, which indicates that all parking bays are free.
 
-4) Check that the initial status of the parking slots is green to indicate that all parking bays are free.
+7) Obstruct one or more ultrasonic sensors with a object to simulate the presence of a vehicle. 
 
-4) Obstruct one or more ultrasonic sensors with a object to simulate the presence of a vehicle. 
+8) Observe the display of mobile app. After a few seconds the color for the corrosponding slot numbers should turn red to indicate that the slots have been occupied. If the mobile app indicates grey status for any of the parking slot then this means that the sensor has a fault or is malfunctioning and the slot is currently unavailable. 
 
-5) Observe the display of mobile app. After a few seconds the color for the corrosponding slot numbers should turn red to indicate that the slots have been occupied.
+9) For reserving a parking bay, tap on a vacant (green) parking bay on the mobile app. The app will display a message indicating that the parking bay has been reserved for you. Also the color of the bay will change to red.
 
-6) If the mobile app indicates grey status for any of the parking slot then this means that the sensor has a fault or is malfunctioning and the slot is currently unavailable. This can simulated in ultrasonic sensor by blocking the trigger signal or blocking the reception of echo.
+10) Subsequently, obstruct the corrosponding sensor to simulate the parking of car. 
 
-7) For reserving a parking bay, tap on a vacant parking bay. The app will display a message indicating that the parking bay has been reserved for you. Also the color of the bay will change to red.
+11) After sometime , remove the obstruction from the ultrasonic sensor to simulate pulling out of the car from the parking bay.
 
-8) Subsequently, obstruct the corrosponding sensor to simulate the parking of car. 
-
-9) After sometime , remove the obstruction from the ultrasonic sensor to simulate pulling out of the carr from the bay.
-
-10) The mobile app should automatically detect this  and display a message to user prividing the details of his parking session along with the bill.
+12) The mobile app should automatically detect this and display a message to user providing the details of his parking session along with the bill.
 
 
 
