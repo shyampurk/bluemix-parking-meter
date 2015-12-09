@@ -1,5 +1,5 @@
 ---
 applications:
-- name:server
-  memory:128M
+- name: server
+  memory: 128M
   
