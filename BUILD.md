@@ -3,10 +3,15 @@
 ##Assumptions
 
 1. The Arduino YUN is upgraded with the Latest OpenWRT-YUN update 
-
+	- Download the update package YunSysupgradeImage_v1.5.3.zip from the following link,
+				
 				https://www.arduino.cc/en/Main/Software#toc8
 
-2. The application has been tested and verified with the following software versions
+2. The Arduino YUN has Enough space to install the required enviroinment, if not follow the steps on the following link
+ 
+				https://www.arduino.cc/en/Tutorial/ExpandingYunDiskSpace
+
+3. The application has been tested and verified with the following software versions
 				
 	DEVICE:
 	
@@ -36,10 +41,10 @@ If you do not have a PubNub subscription, [Click here](https://www.pubnub.com/ge
 
 Step 1 : Check for SSID ARDUINO-YUN90XXXXXX and connect to the device hotspot
 
-Step 2 : Once connected to the network,open the browser visit arduino/local or 192.168.240.1 to configure the settings and setup the YUN to run on users Wifi network.
+Step 2 : Once connected to the network,open the browser visit arduino/local or 192.168.240.1 with default password arduino to configure the settings and setup the YUN to run on users Wifi network. 
 
 	(i)  	Modify the Name of the device and Password which is used for the network login and uploading the 	
-			programs from the Arduino IDE
+		programs from the Arduino IDE
 
 	(ii)	Change the Wireless Parameters SSID and Password to the local wirless network.
 
@@ -69,7 +74,11 @@ Step 1 : Install yun-gcc to Arduino YUN
 
 				opkg -t /root install yun-gcc
 
-This package will take about 20 minutes or more to install so be patient, once it finishes you will be ready to compile simple c or c++ programs.
+This package will take about 20 minutes or more to install so be patient, once it finishes you will be ready to compile simple c or c++ programs.I prefer to download and install this package separately so I can see what is going on:
+				
+				cd /mnt/sda1
+				wget http://downloads.arduino.cc/openwrtyun/1/packages/yun-gcc_4.6.2-2_ar71xx.ipk
+				opkg install yun-gcc_4.6.2-2_ar71xx.ipk
 
 Step 2 : Installing the glibc 
 
@@ -109,21 +118,21 @@ Step 4: Copy bluemix-parking-meter folder using SCP to the YUN
 
 				scp -r bluemix-parking-meter root@192.168.XX.XX:/root/
 
-Step 4: Open up the terminal and follow the commands, make sure you know the IP address of the Arduino-YUN
+Step 5: Open up the terminal and follow the commands, make sure you know the IP address of the Arduino-YUN
 			
 				ssh root@yourname/local or ssh root@192.168.XX.XX	
 
-Step 5: Change the directory to the bluemix-parking-meter 
+Step 6: Change the directory to the bluemix-parking-meter 
 
     			cd bluemix-parking-meter 
 
-Step 6:	Modify the Pubnub Publish and Subscribe Keys in the yun_pubnub/pubnub_hc04.c
+Step 7:	Modify the Pubnub Publish and Subscribe Keys in the yun_pubnub/pubnub_hc04.c
 
-Step 7: To Build using the Makefile, just run
+Step 8: To Build using the Makefile, just run
 
     			make
 
-Step 8: You should see the executable file named ./pubnub_hc04. You can execute the file to test if it executes without any error.
+Step 9: You should see the executable file named ./pubnub_hc04. You can execute the file to test if it executes without any error.
 
 ## Sensor Controller Build
 
