@@ -98,6 +98,12 @@ Step 2 : Installing the glibc
 
 Now Arduino-YUN is ready to compile and run the C Programs.
 
+Step 3: Edit the /etc/inittab file for UART Communication
+
+				nano /etc/inittab
+				
+Comment out the ttyATH0 line by adding # as prefix and save the file.				
+
 ## Master Controller Build
 
 Steps to be followed to build the Master Controller software of Smart Parking System on Arduino YUN
