@@ -6,7 +6,7 @@
 
 				https://www.arduino.cc/en/Main/Software#toc8
 
-2. The application has ben tested and verified with the following software versions
+2. The application has been tested and verified with the following software versions
 				
 	DEVICE:
 	
@@ -22,6 +22,12 @@
 		JAVA v 1.8.0_66
 		nodejs v 0.10.25
 
+3. Before preceeding for build and install steps, the users are expected update the PubNub publish and subscribe keys as per their PubNub subscription, in the following source files. 
+		
+		server/server.py
+		MobileApp/www/js/index.js
+
+If you do not have a PubNub subscription, [Click here](https://www.pubnub.com/get-started/#get-started) to create your free PubNub account.
  
 
 ## Setting up the ARDUINO YUN
