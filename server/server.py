@@ -7,6 +7,7 @@ import json
 import datetime
 from threading import Thread
 import time
+import math
 
 # Initialize the Pubnub Keys 
 pub_key = "demo"
@@ -15,6 +16,7 @@ sub_key = "demo"
 # Status of the Parking lots with key words
 PARKING_STATUS_FREE = 0
 PARKIGN_STATUS_RESERVED = 1
+PARKING_BASIC_PAY = 10
 
 # Holds the Present Status of all the Parking Lots from the hardware 
 '''{"lotNumber":"lot Status"}'''
@@ -123,32 +125,13 @@ def sessionEnd(p_deviceid,p_status):
 		g_sessionStatus["endTime"] = l_parsedEndTime
 		totalTime = g_smartMeter[p_deviceid][2] - g_smartMeter[p_deviceid][1]
 		l_totalMin = divmod(totalTime.days * 86400 + totalTime.seconds, 60)[0]
-		g_sessionStatus["totalTime"] = l_totalMin
-		if(l_totalMin < 60):
-			g_sessionStatus["totalAmt"] = 20
-		elif(l_totalMin > 60 and l_totalMin < 120):
-			g_sessionStatus["totalAmt"] = 40
-		elif(l_totalMin > 120 and l_totalMin < 180):
-			g_sessionStatus["totalAmt"] = 60
-		elif(l_totalMin > 180 and l_totalMin < 240):
-			g_sessionStatus["totalAmt"] = 80
-		elif(l_totalMin > 240 and l_totalMin < 300):
-			g_sessionStatus["totalAmt"] = 100
-		elif(l_totalMin > 300 and l_totalMin < 360):
-			g_sessionStatus["totalAmt"] = 120
-		elif(l_totalMin > 360 and l_totalMin < 420):
-			g_sessionStatus["totalAmt"] = 140
-		elif(l_totalMin > 420 and l_totalMin < 480):
-			g_sessionStatus["totalAmt"] = 160
-		elif(l_totalMin > 480 and l_totalMin < 540):
-			g_sessionStatus["totalAmt"] = 180
-		elif(l_totalMin > 540 and l_totalMin < 600):
-			g_sessionStatus["totalAmt"] = 200
-		elif(l_totalMin > 600 and l_totalMin < 660):
-			g_sessionStatus["totalAmt"] = 220
-		elif(l_totalMin > 660 and l_totalMin < 720):
-			g_sessionStatus["totalAmt"] = 240
-		print pubnub.publish(channel=g_smartMeter[p_deviceid][0], message=g_sessionStatus)
+		l_total = math.floor(l_totalMin/60) + 1
+		if l_totalMin < 1:
+			g_sessionStatus["totalTime"] = "1 Minute"
+		else:
+			g_sessionStatus["totalTime"] = str(l_totalMin) + " Minutes"
+		g_sessionStatus["totalAmt"] = (int)(l_total * PARKING_BASIC_PAY)
+		pubnub.publish(channel=g_smartMeter[p_deviceid][0], message=g_sessionStatus)
 		del g_smartMeter[p_deviceid]
 	else:
 		pass

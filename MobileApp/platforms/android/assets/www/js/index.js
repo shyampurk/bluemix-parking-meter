@@ -1,3 +1,6 @@
+var pub_key = "pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90"
+var sub_key = "sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f"
+
 var parkingCodes = {0: "available", 1: "occupied",2: "unavailable"}
 
 var app = {
@@ -80,9 +83,8 @@ var app = {
             $('#parking-status-popup').addClass('bill')
         } else {
             $('#parking-status-popup').removeClass('bill')
-        }
-        console.log($('#parking-status-popup'))
-        //$(":mobile-pagecontainer").pagecontainer("change", $('#parking-status'));
+        }       
+        
     },
 
     startParking: function(e) {
@@ -108,7 +110,7 @@ var app = {
     },
 
     pubNubInit: function() {
-        pubnub = PUBNUB({publish_key: 'demo',subscribe_key: 'demo'})
+        pubnub = PUBNUB({publish_key: pub_key,subscribe_key: sub_key})
         app.subscribeToStatus()                      
     },
 

@@ -1,3 +1,6 @@
+var pub_key = "demo"
+var sub_key = "demo"
+
 var parkingCodes = {0: "available", 1: "occupied",2: "unavailable"}
 
 var app = {
@@ -107,7 +110,7 @@ var app = {
     },
 
     pubNubInit: function() {
-        pubnub = PUBNUB({publish_key: 'demo',subscribe_key: 'demo'})
+        pubnub = PUBNUB({publish_key: pub_key,subscribe_key: sub_key})
         app.subscribeToStatus()                      
     },
 

@@ -192,26 +192,28 @@ int main(int argc,char *argv[])
 					0	-	Parking LOT is Free
 					1	-	Parking LOT is Filled
 					2	-	Fault in the Sensor */
-				if(g_firstChar != l_tempFirst && g_firstChar > 0 && g_firstChar < 5)
-				{
-					l_tempFirst = g_firstChar;
-					prepare_json_data(g_lot1,g_firstChar-1);
-					pubnub_send(g_jsonResponse);
-					memset(g_jsonResponse, 0, sizeof(g_jsonResponse));		
-				}
-				if(g_secondChar != l_tempSecond && g_secondChar > 0 && g_secondChar < 5)
-				{
-					l_tempSecond = g_secondChar;
-					prepare_json_data(g_lot2,g_secondChar-1);
-					pubnub_send(g_jsonResponse);		
-					memset(g_jsonResponse, 0, sizeof(g_jsonResponse));
-				}
-				if(g_thirdChar != l_tempThird && g_thirdChar > 0 && g_thirdChar < 5)
-				{
-					l_tempThird = g_thirdChar;
-					prepare_json_data(g_lot3,g_thirdChar-1);
-					pubnub_send(g_jsonResponse);		
-					memset(g_jsonResponse, 0, sizeof(g_jsonResponse));
+				if(l_status > 100){
+					if(g_firstChar != l_tempFirst && g_firstChar > 0 && g_firstChar < 5)
+					{
+						l_tempFirst = g_firstChar;
+						prepare_json_data(g_lot1,g_firstChar-1);
+						pubnub_send(g_jsonResponse);
+						memset(g_jsonResponse, 0, sizeof(g_jsonResponse));		
+					}
+					if(g_secondChar != l_tempSecond && g_secondChar > 0 && g_secondChar < 5)
+					{
+						l_tempSecond = g_secondChar;
+						prepare_json_data(g_lot2,g_secondChar-1);
+						pubnub_send(g_jsonResponse);		
+						memset(g_jsonResponse, 0, sizeof(g_jsonResponse));
+					}
+					if(g_thirdChar != l_tempThird && g_thirdChar > 0 && g_thirdChar < 5)
+					{
+						l_tempThird = g_thirdChar;
+						prepare_json_data(g_lot3,g_thirdChar-1);
+						pubnub_send(g_jsonResponse);		
+						memset(g_jsonResponse, 0, sizeof(g_jsonResponse));
+					}
 				}
 			}
         	usleep(500000);
