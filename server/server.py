@@ -10,8 +10,8 @@ import time
 import math
 
 # Initialize the Pubnub Keys 
-pub_key = "demo"
-sub_key = "demo"
+pub_key = "pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90"
+sub_key = "sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f"
 
 # Status of the Parking lots with key words
 PARKING_STATUS_FREE = 0
