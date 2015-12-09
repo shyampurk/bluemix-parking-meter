@@ -8,10 +8,12 @@ import datetime
 from threading import Thread
 import time
 import math
+import pytz
 
 # Initialize the Pubnub Keys 
 pub_key = "pub-c-a1f796fb-1508-4c7e-9a28-9645035eee90"
 sub_key = "sub-c-d4dd77a4-1e13-11e5-9dcf-0619f8945a4f"
+TIME_ZONE = "Asia/Kolkata"
 
 # Status of the Parking lots with key words
 PARKING_STATUS_FREE = 0
@@ -83,7 +85,7 @@ Parameters 	:	None
 
 ****************************************************************************************'''
 def closeReservation():
-	l_endTime = datetime.datetime.now()
+	l_endTime = datetime.datetime.now(pytz.timezone(TIME_ZONE))
 	time.sleep(1)
 	print len(g_lotNumberList)
 	if(len(g_lotNumberList) > 0):
@@ -115,7 +117,7 @@ Parameters 	:	p_deviceid - Lot number
 ****************************************************************************************'''
 def sessionEnd(p_deviceid,p_status):
 	if(g_smartMeter.has_key(p_deviceid) and p_status == PARKING_STATUS_FREE):
-		l_endTime = datetime.datetime.now()
+		l_endTime = datetime.datetime.now(pytz.timezone(TIME_ZONE))
 		g_smartMeter[p_deviceid][2] = l_endTime
 		l_etimeStr = str(l_endTime.hour) + ":" + str(l_endTime.minute) + ":" + str(l_endTime.second)
 		l_parsedEndTime = datetime.datetime.strptime(l_etimeStr,'%H:%M:%S').strftime('%H:%M:%S')
@@ -175,7 +177,7 @@ def appRequest(p_requester,p_reqtype,p_deviceid,p_carNum):
 		elif (p_reqtype == 2):
 			g_smartMeter[p_deviceid] = [p_carNum,0,0,0]
 			if(g_smartMeter.has_key(p_deviceid)):
-				l_startTime = datetime.datetime.now()
+				l_startTime = datetime.datetime.now(pytz.timezone(TIME_ZONE))
 				l_dateStr = str(l_startTime.day) + "." + str(l_startTime.month) + "." + str(l_startTime.year)
 				l_stimeStr = str(l_startTime.hour) + ":" + str(l_startTime.minute) + ":" + str(l_startTime.second)
 				l_parsedDate = datetime.datetime.strptime(l_dateStr,'%d.%m.%Y').strftime('%m-%d-%Y')
