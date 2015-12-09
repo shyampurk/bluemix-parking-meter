@@ -2,9 +2,27 @@
 
 ##Assumptions
 
-The Arduino YUN is upgraded with the Latest OpenWRT-YUN update 
+1. The Arduino YUN is upgraded with the Latest OpenWRT-YUN update 
 
 				https://www.arduino.cc/en/Main/Software#toc8
+
+2. The application has ben tested and verified with the following software versions
+				
+	DEVICE:
+	
+		Arduino IDE v 1.6.4
+		PubNub Python SDK v 3.7.4
+		PubNub POSIX C SDK v 2.1.0
+
+	ANDROID APP:
+
+		CORDOVA v 5.4.1
+		ANT v 1.9.6
+		Android-SDK v 24.4.1
+		JAVA v 1.8.0_66
+		nodejs v 0.10.25
+
+ 
 
 ## Setting up the ARDUINO YUN
 
@@ -342,11 +360,9 @@ Step 3 : Build the .apk file using,
 
 Step 4 : Once the .apk file is build successfully, you will find the app at this path
 
-     			./platforms/android/ant-build/MainActivity-debug.apk
+     			./platforms/android/ant-build/AutoPark-debug.apk
 
-Step 5 : Rename the apk file to a more suitable name, like auto-park.apk .
-
-Step 6 : Install the App on an Android Phone. 
+Step 5 : Install the App on an Android Phone. Follow the steps in [README file](README.md) to use the app. 
 
 
 
