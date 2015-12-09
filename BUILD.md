@@ -48,12 +48,12 @@ Step 1 : Check for SSID ARDUINO-YUN90XXXXXX and connect to the device hotspot
 Step 2 : Once connected to the network,open the browser visit arduino/local or 192.168.240.1 with default password arduino to configure the settings and setup the YUN to run on users Wifi network. 
 
 	(i)  	Modify the Name of the device and Password which is used for the network login and uploading the 	
-		programs from the Arduino IDE
+			programs from the Arduino IDE
 
 	(ii)	Change the Wireless Parameters SSID and Password to the local wirless network.
 
 	(iii)	When all the setting are made, click on Configure & Restart. When you are waiting for the device to 
-		restart switch on to the your laptop to local wifi network.
+			restart switch on to the your laptop to local wifi network.
 
 Step 3 : Open up the terminal and follow the commands, make sure you know the IP address of the Arduino-YUN
 			
