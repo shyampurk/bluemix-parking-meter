@@ -47,7 +47,7 @@ For hosting the Parking management Server on IBM Bluemix, follow the steps as gi
 
 2) Install the Mobile app in an android phone and ensure that the phone has access to internet.
 
-3) Power up the hadrware setup and make sure that Arduino YUN has access to internet.
+3) Power up the hardware setup and make sure that Arduino YUN has access to internet.
 
 4) Make sure that the ultrasonic sensors are not obstructed 
 
