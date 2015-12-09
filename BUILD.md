@@ -91,7 +91,7 @@ Step 2 : Installing the glibc
 			https://packages.debian.org/jessie/all/glibc-source/download
 
 	(ii)	Once the package is downloaded SCP the file to the YUN using the following command running on the 	
-		new terminal(modify the filename and IP address)
+			new terminal(modify the filename and IP address)
 
 			scp -r Downloads/(filename).deb root@192.168.XX.XX:/root/
 
