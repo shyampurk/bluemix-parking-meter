@@ -61,9 +61,9 @@ For hosting the Parking Management Server on IBM Bluemix, follow the steps as gi
 
 9) For reserving a parking bay, tap on a vacant (green) parking slot on the mobile app. The app will display a message indicating that the parking bay has been reserved for the user. Also the color of the slot, on the map, will change to red.
 
-10) Subsequently, obstruct the corrosponding sensor to simulate the parking of car. It this is not done within one minute then the app will assume that user reserved the bay but never parked and hence it will cancel the reservation and charge a minimum bill. 
+10) Subsequently, obstruct the corrosponding sensor to simulate the parking of car. If this is not done within one minute then the app will assume that user reserved the bay but never parked and hence it will cancel the reservation and charge a minimum bill. 
 
-11) After sometime , remove the obstruction from the ultrasonic sensor to simulate pulling out of the car from the parking bay. THis indicates end of praking time.
+11) After sometime , remove the obstruction from the ultrasonic sensor to simulate pulling out of the car from the parking bay. This indicates end of praking time.
 
 12) The mobile app will automatically detect end of parking and display a message to user providing the details of his parking session along with the outstanding bill amount.
 
