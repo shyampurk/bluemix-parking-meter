@@ -14,15 +14,32 @@ Refer [Circuit Diagram](schematic.png)
 
 The application has three parts
 
-1) Parking management Server - This is the application server written in Python which manages the parking reservations, billing and broadcasts parking status updates to all Apps. 
+1) Parking management Server - This is the application server written in Python which manages the parking reservations, billing and broadcasts parking status updates to all Apps. For hosting this on IBM Bluemix, refer the "Application Server Hosting" section below.
 
 2) Hardware - This is the master controller module which runs on Arduino YUN. It periodically gets the status of parking slots within its jurisdiction, from the ultrasonic sensors.
 
 3) Mobile App - This is a cordova based simple mobile app which displays a map of the entire parking lot with color coded status indicators. It provides an instant update to the driver about the current availablity of free parking slots. It also allows the user to reserve a vacant parking bay and additionally handles the parking billing. 
 
-BUILD AND INSTALL
+## BUILD AND INSTALL
 
 Refer [Build & Install](BUILD.md) Steps
+
+## Application Server Hosting
+
+For hosting the Parking management Server on IBM Bluemix, follow the steps as given below
+
+
+1. Signup to create your trial [IBM Bluemix account](https://developer.ibm.com/bluemix/#gettingstarted).
+ 
+3. Follow the [Bluemix Documentation](https://www.ng.bluemix.net/docs/) to create your bluemix container
+
+4. Install the [PubNub service](https://www.pubnub.com/blog/2015-09-09-getting-started-pubnub-ibm-bluemix/) and attach it to your comtainer.
+ 
+5. Install and initialize the [python application runtime](https://www.ng.bluemix.net/docs/starters/python/index.html) 
+
+6. Deploy the application server package under "server" folder on your Bluemix container and start the application from Bluemix console.
+
+
 
 ## WORKING
 
