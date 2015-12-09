@@ -1,5 +1,0 @@
----
-applications:
-- name: server
-  memory: 128M
-  
