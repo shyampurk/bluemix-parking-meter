@@ -1,5 +1,10 @@
 # Build and Install Steps
 
+## Introduction 
+
+Before proceeding with build and install steps, clone/fork this repository to your local computer.
+Refer [Readme](README.md) file for instructions on how to host this application on IBM Bluemix.
+
 ##Assumptions
 
 1. The Arduino YUN is upgraded with the Latest OpenWRT-YUN update 
@@ -35,10 +40,12 @@
 		MobileApp/www/js/index.js (For Mobile App)
 		yun_pubnub/pubnub_hc04.c (For Master Controller)
 
-If you do not have a PubNub subscription, [Click here](https://www.pubnub.com/get-started/#get-started) to create your free PubNub account.
+	If you do not have a PubNub subscription, [Click here](https://www.pubnub.com/get-started/#get-started) to create your free PubNub account.
 
-4. Change the timezone to your local timezone in the parking-meter/server.py
+
+4. The Parking Management Server provides time which is set to a local timezone. If you want to change the timezone to your local timezone settings then update the python code in the parking-meter/server.py 
  
+
 ## Setting up the ARDUINO YUN
 
 ### Configuring WiFi network and SSH access 
