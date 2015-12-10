@@ -149,9 +149,11 @@ Step 8: To Build using the Makefile, just run
 
     			make
 
-Step 9: You should see the executable file named ./pubnub_hc04. To execute the program run the file as follows.
+Step 9: You should see the executable file named ./pubnub_hc04. This is the master controller program. To execute this program, run the file as follows.
 			
 			./pubnub_hc04 /dev/ttyATH0
+			
+			(where /dev/ttyATH0 is path of the UART device file)
 
 ## Sensor Controller Build
 
