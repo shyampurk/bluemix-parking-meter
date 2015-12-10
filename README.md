@@ -35,9 +35,9 @@ For hosting the Parking Management Server on IBM Bluemix, follow the steps as gi
 
 4. Install the [PubNub service](https://www.pubnub.com/blog/2015-09-09-getting-started-pubnub-ibm-bluemix/) and attach it to your comtainer.
  
-5. Install and initialize the [python application runtime](https://www.ng.bluemix.net/docs/starters/python/index.html) 
+5. Install and initialize the buildpacks for [python application runtime](https://www.ng.bluemix.net/docs/starters/python/index.html) 
 
-6. Deploy the application server package under "server" folder on your Bluemix container and start the application from Bluemix console.
+6. Deploy the application server package under ""parking-meter" folder, on your Bluemix container and start the application from Bluemix console.
 
 
 
@@ -47,7 +47,7 @@ For hosting the Parking Management Server on IBM Bluemix, follow the steps as gi
 
 2) Install the Mobile app in an android phone and ensure that the phone has access to internet.
 
-3) Power up the hardware setup and make sure that Arduino YUN has access to internet.
+3) Power up the hardware setup and make sure that Arduino YUN has access to internet. And then run the Master controller program.
 
 4) Make sure that the ultrasonic sensors are not obstructed 
 
