@@ -33,7 +33,7 @@ For hosting the Parking Management Server on IBM Bluemix, follow the steps as gi
  
 3. Follow the [Bluemix Documentation](https://www.ng.bluemix.net/docs/) to create your bluemix container 
 
-4. Install the [PubNub service](https://www.pubnub.com/blog/2015-09-09-getting-started-pubnub-ibm-bluemix/) and attach it to your comtainer.
+4. Install the [PubNub service](https://www.pubnub.com/blog/2015-09-09-getting-started-pubnub-ibm-bluemix/) and attach it to your container.
  
 5. Install and initialize the buildpacks for [python application runtime](https://www.ng.bluemix.net/docs/starters/python/index.html) 
 
