@@ -2,4 +2,6 @@
 applications:
 - name: parking-meter
   memory: 64M
-  
+  no-route: true
+  instances: 1
+  timeeout: 180
