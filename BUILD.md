@@ -57,7 +57,7 @@ Step 2 : Once connected to the network,open the browser visit arduino/local or 1
 	(i)  	Modify the Name of the device and Password which is used for the network login and uploading the 	
 			programs from the Arduino IDE
 
-	(ii)	Change the Wireless Parameters SSID and Password to the local wirless network.
+	(ii)	Change the Wireless Parameters SSID and Password to the local wireless network.
 
 	(iii)	When all the setting are made, click on Configure & Restart. When you are waiting for the device to 
 			restart switch on to the your laptop to local wifi network.
