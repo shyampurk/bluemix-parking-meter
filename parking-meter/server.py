@@ -70,11 +70,8 @@ Parameters 	:	p_lotNumber - Parking lot Number
 
 ****************************************************************************************'''
 def checkList(p_lotNumber):
-	l_count = 0
-	for i in range(len(g_lotNumberList)):
-		if (p_lotNumber == g_lotNumberList[i]):
-			l_count+=1
-	return l_count
+	return g_lotNumberList.count(p_lotNumber)
+
 
 '''****************************************************************************************
 
