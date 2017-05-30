@@ -3,7 +3,7 @@ SERVER - SMART PARKING LOT SYSTEM
 *********************************************************************************'''
 #Import the Modules Required
 from pubnub import Pubnub
-import json
+# import json
 import datetime
 from threading import Thread
 import time
@@ -17,7 +17,7 @@ TIME_ZONE = "Asia/Kolkata"
 
 # Status of the Parking lots with key words
 PARKING_STATUS_FREE = 0
-PARKIGN_STATUS_RESERVED = 1
+PARKING_STATUS_RESERVED = 1
 PARKING_BASIC_PAY = 10
 
 # Holds the Present Status of all the Parking Lots from the hardware 
@@ -61,17 +61,6 @@ def init():
 	pubnub.subscribe(channels='parkingdevice-resp', callback=callback, error=callback, reconnect=reconnect, disconnect=disconnect)
 	pubnub.subscribe(channels='parkingapp-req', callback=appcallback, error=appcallback, reconnect=reconnect, disconnect=disconnect)
 
-'''****************************************************************************************
-
-Function Name 	:	checkList
-Description	:	Checks the list each time the lot gets Reserved and verifies the 
-			lot is not in the list
-Parameters 	:	p_lotNumber - Parking lot Number 
-
-****************************************************************************************'''
-def checkList(p_lotNumber):
-	return g_lotNumberList.count(p_lotNumber)
-
 
 '''****************************************************************************************
 
@@ -84,7 +73,7 @@ Parameters 	:	None
 def closeReservation():
 	l_endTime = datetime.datetime.now(pytz.timezone(TIME_ZONE))
 	time.sleep(1)
-	print len(g_lotNumberList)
+	print(len(g_lotNumberList))
 	if(len(g_lotNumberList) > 0):
 		for i in range(len(g_lotNumberList)):
 			if (g_orginalStatus.has_key(g_lotNumberList[i]) and g_orginalStatus[g_lotNumberList[i]] != 1 and len(g_lotNumberList) > 0):
@@ -100,9 +89,8 @@ def closeReservation():
 			elif(g_orginalStatus.has_key(g_lotNumberList[i]) and g_orginalStatus[g_lotNumberList[i]] == 1):
 				del g_lotReserved[g_lotNumberList[i]]
 				del g_lotNumberList[i]
-				break 
-	else:
-		pass
+				break
+
 
 '''****************************************************************************************
 
@@ -132,8 +120,7 @@ def sessionEnd(p_deviceid,p_status):
 		g_sessionStatus["totalAmt"] = (int)(l_total * PARKING_BASIC_PAY)
 		pubnub.publish(channel=g_smartMeter[p_deviceid][0], message=g_sessionStatus)
 		del g_smartMeter[p_deviceid]
-	else:
-		pass
+
 
 '''****************************************************************************************
 
@@ -146,8 +133,8 @@ Parameters 	:	p_lotNumber - Lot Number
 ****************************************************************************************'''
 def carReserved(p_lotNumber,p_status):
 	g_orginalStatus[p_lotNumber] = p_status
-	if(checkList(p_lotNumber) != 0 and p_status == PARKING_STATUS_FREE):
-		g_parkingStatus[p_lotNumber] = PARKIGN_STATUS_RESERVED
+	if p_lotNumber in g_lotNumberList and p_status == PARKING_STATUS_FREE:
+		g_parkingStatus[p_lotNumber] = PARKING_STATUS_RESERVED
 	else:
 		sessionEnd(p_lotNumber,p_status)
 		g_parkingStatus[p_lotNumber] = p_status
@@ -189,13 +176,12 @@ def appRequest(p_requester,p_reqtype,p_deviceid,p_carNum):
 				g_sessionStatus["totalTime"] = 0
 				g_sessionStatus["totalAmt"] = 0
 				pubnub.publish(channel=p_carNum, message=g_sessionStatus)
-				g_parkingStatus[p_deviceid] = PARKIGN_STATUS_RESERVED
+				g_parkingStatus[p_deviceid] = PARKING_STATUS_RESERVED
 				g_lotReserved[p_deviceid] = l_startTime 
-				if(checkList(p_deviceid)==0):
+				if p_deviceid not in g_lotNumberList:
 					g_lotNumberList.append(p_deviceid)
 				pubnub.publish(channel='parkingapp-resp', message=g_parkingStatus)
-			else:
-				pass
+
 
 '''****************************************************************************************
 
@@ -206,10 +192,11 @@ Parameters 	:	message - Sensor Status sent from the hardware
 	
 ****************************************************************************************'''
 def callback(message, channel):
-	if(message.has_key("deviceID") and message.has_key("value")):
-		carReserved(message["deviceID"],message["value"])
-	else:
+	try:
+		carReserved(message["deviceID"], message["value"])
+	except KeyError:
 		pass
+
 
 '''****************************************************************************************
 
@@ -220,10 +207,11 @@ Parameters 	:	message - Request sent from the app
 
 ****************************************************************************************'''
 def appcallback(message, channel):
-	if(message.has_key("requester") and message.has_key("lotNumber") and message.has_key("requestType") and message.has_key("requestValue")):
-		appRequest(message["requester"],message["requestType"],message["lotNumber"],message["requestValue"])
-	else:
+	try:
+		appRequest(message["requester"], message["requestType"], message["lotNumber"], message["requestValue"])
+	except KeyError:
 		pass
+
 
 '''****************************************************************************************
 
@@ -234,6 +222,7 @@ Parameters 	:	message - error message
 ****************************************************************************************'''
 def error(message):
     print("ERROR : " + str(message))
+
 
 '''****************************************************************************************
 
@@ -272,4 +261,3 @@ if __name__ == '__main__':
 
 #End of the Script 
 ##*****************************************************************************************************##
-
