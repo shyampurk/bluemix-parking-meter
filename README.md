@@ -1,10 +1,10 @@
-# IoT enabled Smart Parking Meter with IBM Bluemix & PubNub
+# IoT enabled Smart Parking Meter with IBM Bluemix & PubSub
 
-Smart Parking System based on IBM Buemix hosted Parking Meter & hardware controlled by an Arduino YUN along with PubNub as the communication middleware.
+Smart Parking System based on IBM Buemix hosted Parking Meter & hardware controlled by an Arduino YUN along with PubSub as the communication middleware.
 
 ## OVERVIEW
 
-This project demonstrates how we can build an application server on IBM Bluemix that allows users to reserve parking spaces and automatically handles their parking bills as well. The Hardware for this is based on Arduino YUN which can control a set of HC-SR04 ultrasonic sensors, to detect the availability of a parking slot and update this information on a mobile app using the PubNub's realtime data stream network.  
+This project demonstrates how we can build an application server on IBM Bluemix that allows users to reserve parking spaces and automatically handles their parking bills as well. The Hardware for this is based on Arduino YUN which can control a set of HC-SR04 ultrasonic sensors, to detect the availability of a parking slot and update this information on a mobile app using the PubSub's realtime data stream network.  
 
 ## INTRODUCTION
 
